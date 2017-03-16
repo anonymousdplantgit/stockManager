@@ -1,0 +1,90 @@
+package com.soucreation;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
+
+import com.soucreation.model.Categorie;
+import com.soucreation.model.Client;
+import com.soucreation.model.Commande;
+import com.soucreation.model.CommandeProduit;
+import com.soucreation.model.Operation;
+import com.soucreation.model.Produit;
+import com.soucreation.repository.CategorieRepository;
+import com.soucreation.repository.ClientRepository;
+import com.soucreation.repository.CommandeProduitRepository;
+import com.soucreation.repository.CommandeRepository;
+import com.soucreation.repository.OperationRepository;
+import com.soucreation.repository.ProduitRepository;
+
+@Component
+public class DataLoader implements ApplicationRunner {
+
+	@Autowired
+	CategorieRepository catRepository;
+	@Autowired
+	ProduitRepository proRepository;
+	@Autowired
+	OperationRepository opeRepository;
+	@Autowired
+	CommandeRepository cmdRepository;
+	@Autowired
+	CommandeProduitRepository cmdPrdRepository;
+	@Autowired
+	ClientRepository cltRepository;
+	
+	@Override
+	public void run(ApplicationArguments arg0) throws Exception {
+		cltRepository.save(new Client("Abdelmajid", "Boudouh", "0606546562", "Adresse 2 rue de l'adresse","Abdelmajid@Boudouh.com"));
+		cltRepository.save(new Client("Youssef", "Ezzahri", "0606546562", "Adresse 2 rue de l'adresse","Youssef@Ezzahri.com"));
+		Client client =cltRepository.save(new Client("Souhail", "AIT SAID",  "0606546562","Adresse 2 rue de l'adresse","souhail@aitsaid.com"));
+		Categorie autre = catRepository.save(new Categorie("AUTRE", "Autre categorie", "Categorie non referancé"));
+		Produit produit1 = proRepository
+				.save(new Produit("PRD1", "Produit 1", "Produit 1 de test", BigDecimal.valueOf(RandomUtils.nextDouble(Double.valueOf(15.05),Double.valueOf(20.05))),BigDecimal.valueOf(RandomUtils.nextDouble(Double.valueOf(20.05),Double.valueOf(25.05))), autre));
+		Produit produit2 = proRepository
+				.save(new Produit("PRD2", "Produit 2", "Produit 2 de test", BigDecimal.valueOf(RandomUtils.nextDouble(Double.valueOf(15.05),Double.valueOf(20.05))),BigDecimal.valueOf(RandomUtils.nextDouble(Double.valueOf(20.05),Double.valueOf(25.05))), autre));
+		opeRepository.save(new Operation(100L, new Date(), produit1));
+		opeRepository.save(new Operation(-10L, new Date(), produit1));
+		opeRepository.save(new Operation(-5L, new Date(), produit1));
+		Commande cmd = new Commande();
+		cmd.setClient(client);
+		cmd.setValide(false);
+		cmd.setDateCmd(new Date());
+		cmdRepository.save(cmd);
+		CommandeProduit cmdPdt= new CommandeProduit();
+		cmdPdt.setQte(44);
+		cmdPdt.setCommande(cmd);
+		cmdPdt.setProduit(produit1);
+		cmd.getCommandeProduits().add(cmdPdt);
+		cmdPdt= new CommandeProduit();
+		cmdPdt.setQte(55);
+		cmdPdt.setCommande(cmd);
+		cmdPdt.setProduit(produit2);
+		cmd.getCommandeProduits().add(cmdPdt);
+		cmdRepository.save(cmd);
+		
+		
+		
+
+		for (int i = 0; i < 3; i++) {
+			Categorie pot = catRepository.save(new Categorie(RandomStringUtils.randomAlphanumeric(10).toUpperCase(),
+					RandomStringUtils.randomAlphanumeric(15), RandomStringUtils.randomAlphanumeric(20)));
+			for (int j = 0; j < 3; j++) {
+				Produit black = proRepository.save(new Produit(RandomStringUtils.randomAlphanumeric(10).toUpperCase(),
+						RandomStringUtils.randomAlphanumeric(15), RandomStringUtils.randomAlphanumeric(20),
+						BigDecimal.valueOf(RandomUtils.nextDouble(Double.valueOf(15.05),Double.valueOf(20.05))),BigDecimal.valueOf(RandomUtils.nextDouble(Double.valueOf(20.09),Double.valueOf(25.05))), pot));
+				for (int k = 0; k < 12; k++) {
+					opeRepository.save(new Operation(RandomUtils.nextLong(1L, 100L)-50L, new Date(), black));
+				}
+			}
+		}
+
+	}
+
+}

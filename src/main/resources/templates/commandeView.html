@@ -1,0 +1,114 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout">
+<body>
+	<section layout:fragment="content" class="content-body">
+		<section class="content-header">
+			<h1 th:text="#{header.body.commandes.ordering}"></h1>
+			<ol class="breadcrumb">
+				<li><a href="/home"><i class="fa fa-dashboard" th:text="#{home}"></i></a></li>
+				<li class="active" th:text="#{header.body.commandes.ordering}"></li>
+			</ol>
+		</section>
+		<!-- 				Table -->
+		<section class="content">
+			<div class="box box-info">
+				<div class="box-header with-border">
+					<h3 class="box-title" th:text="#{commandes.addcmd}"></h3>
+					<div class="box-tools pull-right">
+							<button type="button" class="btn btn-box-tool"
+								data-widget="collapse">
+								<i class="fa fa-minus"></i>
+							</button>
+							<button type="button" class="btn btn-box-tool"
+								data-widget="remove">
+								<i class="fa fa-remove"></i>
+							</button>
+						</div>
+				</div>
+				<form class="form-horizontal" method="POST" th:action="managCmd"
+					th:object="${commande}">
+					<!-- /.box-header -->
+					<div class="box-body">
+						<div class="row">
+							<div class="box-body">
+								<div class="form-group">
+									<label for="categorie" class="col-xs-1 control-label" th:text="#{client}"></label>	
+									<div class="col-xs-3">
+										<select th:field="*{client}"
+											class="form-control select2" name="client">
+									 		<option 
+										 th:each="var : ${clientList}" 
+										 th:value="${var.clientId}" 
+										 th:text="|${var.nom} ${var.prenom}|"/>
+									</select>
+									</div>
+									<label for="datelivraison" class="col-xs-2 control-label" th:text="#{commandes.deliverydate}"></label>	
+									<div class="col-xs-3">
+									                <div class="input-group date">
+					                  <div class="input-group-addon">
+					                    <i class="fa fa-calendar"></i>
+					                  </div>
+					                  <input type="text" class="form-control pull-right" 
+					                  id="datepicker" name="dateLivraison" th:value="*{{dateLivraison}}"></input>
+					                </div>
+									</div>
+									
+								</div>
+								<hr></hr>
+								<table class="table table-condensed table-striped table-hover">
+									<thead>
+										<tr>
+											<th style="text-align: left" width="5%">#</th>
+											<th style="text-align: left" width="30%" th:text="#{ref}"></th>
+											<th style="text-align: left" width="20%" th:text="#{qte}"></th>
+											<th style="text-align: left" width="55%">
+												<button class="btn btn-success" type="submit" name="addRow"> <i class="fa fa-plus-circle" > <span th:text="#{commandes.addproduct}"></span></i>  
+												</button>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:if="${#lists.isEmpty(commande.commandeProduits)}">
+											<td colspan="4" style="text-align: center" th:text="#{commandes.noproducts}"></td>
+										</tr>
+										<tr th:each="row,rowStat : *{commandeProduits}">
+											<td th:text="${rowStat.count}">1</td>
+											<td><select class="form-control select2"
+												th:field="*{commandeProduits[__${rowStat.index}__].produit}">
+													<option th:each="var : ${produitList}"
+														th:value="${var.produitId}" th:text="${var.ref}"></option>
+											</select></td>
+											<td><input required="true" class="form-control" type="number"
+												th:field="*{commandeProduits[__${rowStat.index}__].qte}" />
+											</td>
+											<td>
+												<button class="btn btn-danger" type="submit" name="removeRow"
+													th:value="${rowStat.index}" th:text="#{btn.delete}"> <i class="fa fa-trash"></i></button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+
+
+					<div></div>
+
+
+					<!-- /.box-body -->
+					<div class="box-footer">
+						<div class="col-xs-12">
+							<button type="submit" class="btn btn-info pull-right"
+								value="Save" th:text="#{btn.save}"></button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</section>
+	</section>
+
+</body>
+</html>
