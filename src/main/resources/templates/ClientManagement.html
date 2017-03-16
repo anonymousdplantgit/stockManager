@@ -22,25 +22,25 @@
 				<form class="form-horizontal" method="POST" action="save"
 					th:object="${fournisseur}">
 					<div class="box-body">
-						<div class="form-group">
+						<div class="form-group col-md-12">
 							<input th:value="*{fournisseurId}" type="hidden" name="fournisseurId" />
-							<div class="col-xs-4">
+							<div class="col-md-4">
 								<input th:value="*{nom}" type="text" class="form-control"
 									name="nom" placeholder="Name" />
 							</div>
-							<div class="col-xs-4">
+							<div class="col-md-4">
 								<input th:value="*{prenom}" type="text"
 									class="form-control" name="prenom"
 									placeholder="Prénom" />
 							</div>
-							<div class="col-xs-4">
+							<div class="col-md-4">
 								<input th:value="*{phone}" type="text"
 									class="form-control" name="phone"
 									placeholder="Phone" />
 							</div>
 						</div>
-						<div class="form-group">
-							<div class="col-xs-12">
+						<div class="form-group col-md-12">
+							<div class="col-md-12">
 								<textarea th:text="*{adresse}" type="text"
 									class="form-control" name="adresse"
 									placeholder="Adresse" />
@@ -71,7 +71,7 @@
 					<h3 class="box-title">List de Fournisseur </h3>
 				</div>
 				<!-- /.box-header -->
-				<div class="box-body">
+				<div class="box-body table-responsive no-padding">
 					<table id="table" class="table table-bordered table-striped">
 						<thead>
 							<tr>
