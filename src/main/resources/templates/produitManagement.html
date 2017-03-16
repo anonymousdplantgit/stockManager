@@ -22,28 +22,28 @@
 				<form class="form-horizontal" method="POST" action="save"
 					th:object="${produit}">
 					<div class="box-body">
-						<div class="form-group">
+						<div class="form-group col-md-12" >
 							<input th:value="*{produitId}" type="hidden" name="produitId" />
-							<label for="ref" class="col-xs-1 control-label" th:text="#{ref}"></label>
-							<div class="col-xs-3">
+							<label for="ref" class="col-md-1 control-label" th:text="#{ref}"></label>
+							<div class="col-md-3">
 								<input th:value="*{ref}" type="text" class="form-control"
 									name="ref" />
 							</div>
 							<label for="label" class="col-xs-2 control-label" th:text="#{label}"></label>
-							<div class="col-xs-2">
+							<div class="col-md-2">
 								<input th:value="*{label}" type="text"
 									class="form-control" name="label"
 									/>
 							</div>
 							<label for="description" class="col-xs-1 control-label" th:text="#{description}"></label>
-							<div class="col-xs-3">
+							<div class="col-md-3">
 								<input th:value="*{description}" type="text"
 									class="form-control" name="description" />
 							</div>
 						</div>
-						<div class="form-group">
-							<label for="categorie" class="col-xs-1 control-label" th:text="#{category}"></label>
-							<div class="col-xs-3">
+						<div class="form-group col-md-12">
+							<label for="categorie" class="col-md-1 control-label" th:text="#{category}"></label>
+							<div class="col-md-3">
 								<select th:field="*{categorie}"
 									class="form-control select2" name="categorie">
 									 <option 
@@ -53,13 +53,13 @@
 									 
 									</select>
 							</div>
-							<label for="prixAchat" class="col-xs-2 control-label" th:text="#{products.prixachat}"></label>
-							<div class="col-xs-2">
+							<label for="prixAchat" class="col-md-2 control-label" th:text="#{products.prixachat}"></label>
+							<div class="col-md-2">
 								<input th:value="*{prixAchat}" type="number"
 									class="form-control" name="prixAchat" required="true"/>
 							</div>
-							<label for="prixVente" class="col-xs-1 control-label" th:text="#{products.prixvente}"></label>
-							<div class="col-xs-2">
+							<label for="prixVente" class="col-md-1 control-label" th:text="#{products.prixvente}"></label>
+							<div class="col-md-2">
 								<input th:value="*{prixVente}" type="number"
 									class="form-control" name="prixVente" required="true" />
 							</div>
@@ -89,7 +89,7 @@
 					<h3 class="box-title" th:text="#{products.list}"></h3>
 				</div>
 				<!-- /.box-header -->
-				<div class="box-body">
+				<div class="box-body table-responsive no-padding">
 					<table id="table" class="table table-bordered table-striped">
 						<thead>
 							<tr>
@@ -101,7 +101,7 @@
 								<th style="text-align: center" th:text="#{products.prixachat}"></th>
 								<th style="text-align: center" th:text="#{products.prixvente}"></th>
 								<th style="text-align: center" th:text="#{stockquantity}"></th>
-								<th style="text-align: center" th:text="#{actions}" width="15%"></th>
+								<th style="text-align: center" th:text="#{actions}" width="10%"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -117,14 +117,16 @@
 								<td style="text-align: center" th:text="${produit.prixAchat}"></td>
 								<td style="text-align: center" th:text="${produit.prixVente}"></td>
 								<td style="text-align: center"  th:text="${produit.calculeSum()}"></td>
-								<td style="text-align: center"><a
-									th:href="@{update(id=${produit.produitId})}" type="button"
-									class="btn btn-info  "><i class="fa fa-edit"></i> </a> <a
-									th:href="@{delete(id=${produit.produitId})}" type="button"
-									class="btn btn-danger "><i class="fa fa-trash-o"></i> </a>
-									<a
-									th:href="@{/produitOperations/produit(id=${produit.produitId})}" type="button"
-									class="btn btn-default "><i class="fa fa-exchange"></i> </a>
+								<td style="text-align: center">
+									<table>
+									<tr>
+									<td><a th:href="@{update(id=${produit.produitId})}" type="button"
+									class="btn btn-info  "><i class="fa fa-edit"></i> </a></td>
+									<td><a th:href="@{delete(id=${produit.produitId})}" type="button"
+									class="btn btn-danger "><i class="fa fa-trash-o"></i></a></td>
+									<td><a th:href="@{/produitOperations/produit(id=${produit.produitId})}" type="button"
+									class="btn btn-default "><i class="fa fa-exchange"></i> </a></td>
+									</tr></table>
 								</td>
 							</tr>
 						</tbody>
@@ -138,7 +140,7 @@
 								<th style="text-align: center" th:text="#{products.prixachat}"></th>
 								<th style="text-align: center" th:text="#{products.prixvente}"></th>
 								<th style="text-align: center" th:text="#{stockquantity}"></th>
-								<th style="text-align: center" th:text="#{actions}" width="15%"></th>
+								<th style="text-align: center" th:text="#{actions}" width="10%"></th>
 							</tr>
 						</tfoot>
 					</table>

@@ -22,20 +22,20 @@
 				<form class="form-horizontal" method="POST" action="save"
 					th:object="${categorie}">
 					<div class="box-body">
-						<div class="form-group">
-							<label for="ref" class="col-xs-1 control-label" th:text="#{ref}"></label>
+						<div class="form-group col-md-12">
+							<label for="ref" class="col-md-1 control-label" th:text="#{ref}"></label>
 							<input th:value="*{categorieId}" type="hidden" name="categorieId" />
-							<div class="col-xs-2">
+							<div class="col-md-2">
 								<input id="ref" th:value="*{ref}" type="text" class="form-control"
 									name="ref"/>
 							</div>
-							<label for="label" class="col-xs-1 control-label" th:text="#{label}"></label>
-							<div class="col-xs-3">
+							<label for="label" class="col-md-1 control-label" th:text="#{label}"></label>
+							<div class="col-md-3">
 								<input th:value="*{label}" type="text"
 									class="form-control" name="label" />
 							</div>
-							<label for="description" class="col-xs-1 control-label" th:text="#{description}"></label>
-							<div class="col-xs-4">
+							<label for="description" class="col-md-1 control-label" th:text="#{description}"></label>
+							<div class="col-md-4">
 								<input th:value="*{description}" type="text"
 									class="form-control" name="description"/>
 							</div>
@@ -65,7 +65,7 @@
 					<h3 class="box-title" th:text="#{categories.list}" ></h3>
 				</div>
 				<!-- /.box-header -->
-				<div class="box-body">
+				<div class="box-body table-responsive no-padding">
 					<table id="table" class="table table-bordered table-striped">
 						<thead>
 							<tr>
@@ -94,11 +94,11 @@
 								 	</span>
 								 </p>
 								</td>
-								<td style="text-align: center"><a
+								<td style="text-align: center"><div class="col-md-6"><a 
 									th:href="@{update(id=${categorie.categorieId})}" type="button"
-									class="btn btn-info  "><i class="fa fa-edit"></i> </a> <a
+									class="btn btn-info  "><i class="fa fa-edit"></i> </a></div> <div class="col-md-6"><a  
 									th:href="@{delete(id=${categorie.categorieId})}" type="button"
-									class="btn btn-danger "><i class="fa fa-trash-o"></i> </a></td>
+									class="btn btn-danger "><i class="fa fa-trash-o"></i> </a></div></td>
 							</tr>
 						</tbody>
 						<tfoot>
