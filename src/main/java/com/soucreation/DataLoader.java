@@ -10,18 +10,18 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import com.soucreation.model.Categorie;
-import com.soucreation.model.Client;
-import com.soucreation.model.Commande;
-import com.soucreation.model.CommandeProduit;
-import com.soucreation.model.Operation;
-import com.soucreation.model.Produit;
-import com.soucreation.repository.CategorieRepository;
-import com.soucreation.repository.ClientRepository;
-import com.soucreation.repository.CommandeProduitRepository;
-import com.soucreation.repository.CommandeRepository;
-import com.soucreation.repository.OperationRepository;
-import com.soucreation.repository.ProduitRepository;
+import com.soucreation.stock.model.Categorie;
+import com.soucreation.stock.model.Client;
+import com.soucreation.stock.model.Commande;
+import com.soucreation.stock.model.CommandeProduit;
+import com.soucreation.stock.model.Operation;
+import com.soucreation.stock.model.Produit;
+import com.soucreation.stock.repository.CategorieRepository;
+import com.soucreation.stock.repository.ClientRepository;
+import com.soucreation.stock.repository.CommandeProduitRepository;
+import com.soucreation.stock.repository.CommandeRepository;
+import com.soucreation.stock.repository.OperationRepository;
+import com.soucreation.stock.repository.ProduitRepository;
 
 @Component
 public class DataLoader implements ApplicationRunner {
@@ -58,12 +58,12 @@ public class DataLoader implements ApplicationRunner {
 		cmd.setDateCmd(new Date());
 		cmdRepository.save(cmd);
 		CommandeProduit cmdPdt= new CommandeProduit();
-		cmdPdt.setQte(44);
+		cmdPdt.setQte(44L);
 		cmdPdt.setCommande(cmd);
 		cmdPdt.setProduit(produit1);
 		cmd.getCommandeProduits().add(cmdPdt);
 		cmdPdt= new CommandeProduit();
-		cmdPdt.setQte(55);
+		cmdPdt.setQte(55L);
 		cmdPdt.setCommande(cmd);
 		cmdPdt.setProduit(produit2);
 		cmd.getCommandeProduits().add(cmdPdt);
@@ -79,8 +79,35 @@ public class DataLoader implements ApplicationRunner {
 				Produit black = proRepository.save(new Produit(RandomStringUtils.randomAlphanumeric(10).toUpperCase(),
 						RandomStringUtils.randomAlphanumeric(15), RandomStringUtils.randomAlphanumeric(20),
 						BigDecimal.valueOf(RandomUtils.nextDouble(Double.valueOf(15.05),Double.valueOf(20.05))),BigDecimal.valueOf(RandomUtils.nextDouble(Double.valueOf(20.09),Double.valueOf(25.05))), pot));
+				Produit whit = proRepository.save(new Produit(RandomStringUtils.randomAlphanumeric(10).toUpperCase(),
+						RandomStringUtils.randomAlphanumeric(15), RandomStringUtils.randomAlphanumeric(20),
+						BigDecimal.valueOf(RandomUtils.nextDouble(Double.valueOf(15.05),Double.valueOf(20.05))),BigDecimal.valueOf(RandomUtils.nextDouble(Double.valueOf(20.09),Double.valueOf(25.05))), pot));
+				opeRepository.save(new Operation(RandomUtils.nextLong(1L,100L)-10, new Date(), black));
+				opeRepository.save(new Operation(RandomUtils.nextLong(1L,100L)-10, new Date(), black));
+				opeRepository.save(new Operation(RandomUtils.nextLong(1L,100L)-10, new Date(), black));
+				opeRepository.save(new Operation(RandomUtils.nextLong(1L,100L)-10, new Date(), whit));
+				opeRepository.save(new Operation(RandomUtils.nextLong(1L,100L)-10, new Date(), whit));
+				opeRepository.save(new Operation(RandomUtils.nextLong(1L,100L)-10, new Date(), whit));
+				Commande c = new Commande();
+				c.setClient(client);
+				c.setValide(false);
+				c.setDelivred(false);
+				c.setDateCmd(new Date());
+				cmdRepository.save(c);
+				CommandeProduit cp= new CommandeProduit();
+				cp.setQte(RandomUtils.nextLong(1L, 100L));
+				cp.setCommande(c);
+				cp.setProduit(black);
+				c.getCommandeProduits().add(cp);
+				cmdRepository.save(c);
+				CommandeProduit cp2= new CommandeProduit();
+				cp2.setQte(RandomUtils.nextLong(1L, 100L));
+				cp2.setCommande(c);
+				cp.setProduit(whit);
+				c.getCommandeProduits().add(cp);
+				cmdRepository.save(c);
 				for (int k = 0; k < 12; k++) {
-					opeRepository.save(new Operation(RandomUtils.nextLong(1L, 100L)-50L, new Date(), black));
+					opeRepository.save(new Operation(RandomUtils.nextLong(1L, 100L)-20L, new Date(), black));
 				}
 			}
 		}

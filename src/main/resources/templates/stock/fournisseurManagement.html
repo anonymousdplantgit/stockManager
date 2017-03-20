@@ -1,0 +1,120 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout">
+<body>
+	<section layout:fragment="content" class="content-body">
+		<section class="content-header">
+			<h1>Gestion de fourisseurs</h1>
+			<ol class="breadcrumb">
+				<li><a href="/home"><i class="fa fa-dashboard"></i> Acceuil</a></li>
+				<li class="active">Gestion de fourisseurs</li>
+			</ol>
+		</section>
+		<section class="content">
+			<!-- start: page -->
+			<!-- 				Form -->
+			<div th:replace="messages/messages :: messages"></div>
+			<div class="box box-info">
+				<div class="box-header with-border">
+					<h3 class="box-title">Ajouter un fournisseur</h3>
+				</div>
+				<!-- /.box-header -->
+				<!-- form start -->
+				<form class="form-horizontal" method="POST" action="save"
+					th:object="${fournisseur}">
+					<div class="box-body">
+						<div class="form-group">
+							<input th:value="*{fournisseurId}" type="hidden" name="fournisseurId" />
+							<div class="col-xs-4">
+								<input th:value="*{nom}" type="text" class="form-control"
+									name="nom" placeholder="Name" />
+							</div>
+							<div class="col-xs-4">
+								<input th:value="*{prenom}" type="text"
+									class="form-control" name="prenom"
+									placeholder="Prénom" />
+							</div>
+							<div class="col-xs-4">
+								<input th:value="*{phone}" type="text"
+									class="form-control" name="phone"
+									placeholder="Phone" />
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-12">
+								<textarea th:text="*{adresse}" type="text"
+									class="form-control" name="adresse"
+									placeholder="Adresse" />
+							</div>
+						</div>
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer">
+						<div class="col-xs-4">
+							<a href="/fournisseurs/" type="button" class="btn btn-default pull-left"	value="Cancel">Cancel</a>
+						</div>
+						<div class="col-xs-4">
+						<p  style="color : red" th:text="${message}"></p>
+						</div>
+						<div class="col-xs-4">
+							<button type="submit" class="btn btn-info pull-right" value="Save">Save</button>
+						</div>
+					</div>
+					<!-- /.box-footer -->
+				</form>
+			</div>
+		</section>
+		<!--/	Form -->
+		<!-- 				Table -->
+		<section class="content">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">List de Fournisseur </h3>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body">
+					<table id="table" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th style="text-align: left" width="5%">#</th>
+								<th style="text-align: center" width="20%">Nom</th>
+								<th style="text-align: center" width="20%">Prénom</th>
+								<th style="text-align: center" width="20%">Phone</th>
+								<th style="text-align: center" width="20%">Adresse</th>
+								<th style="text-align: center" width="10%">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="fournisseur : ${fournisseurList}">
+								<td th:text="${fournisseur.fournisseurId}"></td>
+								<td style="text-align: center" th:text="${fournisseur.nom}"></td>
+								<td style="text-align: center" th:text="${fournisseur.prenom}"></td>
+								<td style="text-align: center" th:text="${fournisseur.phone}"></td>
+								<td style="text-align: center" th:text="${fournisseur.adresse}"></td>
+								<td style="text-align: center"><a
+									th:href="@{update(id=${fournisseur.fournisseurId})}" type="button"
+									class="btn btn-info  "><i class="fa fa-edit"></i> </a> <a
+									th:href="@{delete(id=${fournisseur.fournisseurId})}" type="button"
+									class="btn btn-danger "><i class="fa fa-trash-o"></i> </a></td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th style="text-align: left" width="5%">#</th>
+								<th style="text-align: center" width="20%">Nom</th>
+								<th style="text-align: center" width="20%">Prénom</th>
+								<th style="text-align: center" width="20%">Phone</th>
+								<th style="text-align: center" width="20%">Adresse</th>
+								<th style="text-align: center" width="10%">Actions</th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				<!-- /.box-body -->
+			</div>
+		</section>
+
+	</section>
+
+</body>
+</html>

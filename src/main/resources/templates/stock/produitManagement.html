@@ -1,0 +1,138 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/layout">
+<body>
+	<section layout:fragment="content" class="content-body">
+		<section class="content-header">
+			<h1 th:text="#{header.body.products}"></h1>
+			<ol class="breadcrumb">
+				<li><a href="/home" th:text="#{home}"><i class="fa fa-dashboard"></i></a></li>
+				<li class="active" th:text="#{header.body.products}"></li>
+			</ol>
+		</section>
+		<section class="content">
+			<!-- start: page -->
+			<!-- 				Form -->
+			<div th:replace="messages/messages :: messages"></div>
+			<div class="box box-info">
+				<div class="box-header with-border">
+					<h3 class="box-title" th:text="#{products.add}"></h3>
+				</div>
+				<!-- /.box-header -->
+				<!-- form start -->
+				<form class="form-horizontal" method="POST" action="save" th:object="${produit}">
+					<div class="box-body">
+						<div class="form-group col-md-12">
+							<input th:value="*{produitId}" type="hidden" name="produitId" /> <label for="ref" class="col-md-1 control-label" th:text="#{ref}"></label>
+							<div class="col-md-3">
+								<input th:value="*{ref}" type="text" class="form-control" name="ref" />
+							</div>
+							<label for="label" class="col-xs-2 control-label" th:text="#{label}"></label>
+							<div class="col-md-2">
+								<input th:value="*{label}" type="text" class="form-control" name="label" />
+							</div>
+							<label for="description" class="col-xs-1 control-label" th:text="#{description}"></label>
+							<div class="col-md-3">
+								<input th:value="*{description}" type="text" class="form-control" name="description" />
+							</div>
+						</div>
+						<div class="form-group col-md-12">
+							<label for="categorie" class="col-md-1 control-label" th:text="#{category}"></label>
+							<div class="col-md-3">
+								<select th:field="*{categorie}" class="form-control select2" name="categorie">
+									<option th:each="var : ${categorieList}" th:value="${var.categorieId}" th:text="${var.ref}" />
+
+								</select>
+							</div>
+							<label for="prixAchat" class="col-md-2 control-label" th:text="#{products.prixachat}"></label>
+							<div class="col-md-2">
+								<input th:value="*{prixAchat}" type="number" class="form-control" name="prixAchat" required="true" />
+							</div>
+							<label for="prixVente" class="col-md-1 control-label" th:text="#{products.prixvente}"></label>
+							<div class="col-md-2">
+								<input th:value="*{prixVente}" type="number" class="form-control" name="prixVente" required="true" />
+							</div>
+						</div>
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer">
+						<div class="col-xs-4">
+							<a href="/produits/" type="button" class="btn btn-default pull-left" th:text="#{btn.cancel}" value="Cancel"></a>
+						</div>
+						<div class="col-xs-4">
+							<p style="color: red" th:text="${message}"></p>
+						</div>
+						<div class="col-xs-4">
+							<button type="button" data-toggle="modal" data-target="#mySaveModal" class="btn btn-info pull-right" th:text="#{btn.save}" value="Save"></button>
+							<div th:replace="modal/saveModal :: saveModal"></div> 
+						</div>
+					</div>
+					<!-- /.box-footer -->
+				</form>
+			</div>
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title" th:text="#{products.list}"></h3>
+				</div>
+				<!-- /.box-header -->
+				<div class="box-body table-responsive no-padding">
+					<table id="table" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th style="text-align: left" width="5%">#</th>
+								<th style="text-align: center" width="10%" th:text="#{ref}"></th>
+								<th style="text-align: center" th:text="#{category}"></th>
+								<th style="text-align: center" th:text="#{label}"></th>
+								<th style="text-align: center" th:text="#{description}"></th>
+								<th style="text-align: center" th:text="#{products.prixachat}"></th>
+								<th style="text-align: center" th:text="#{products.prixvente}"></th>
+								<th style="text-align: center" th:text="#{stockquantity}"></th>
+								<th style="text-align: center" th:text="#{actions}" width="10%"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="produit : ${produitList}">
+								<td th:text="${produit.produitId}"></td>
+								<td style="text-align: center" th:text="${produit.ref}"></td>
+								<td style="text-align: center"><strong> <a th:href="@{/categories/update(id=${produit.categorie.categorieId})}" th:text="${produit.categorie.ref}" /></strong></td>
+								<td style="text-align: center" th:text="${produit.label}"></td>
+								<td style="text-align: center" th:text="${produit.description}"></td>
+								<td style="text-align: center" th:text="${produit.prixAchat}"></td>
+								<td style="text-align: center" th:text="${produit.prixVente}"></td>
+								<td style="text-align: center" th:text="${produit.calculeSum()}"></td>
+								<td style="text-align: center">
+									<table>
+										<tr>
+											<td><a th:href="@{update(id=${produit.produitId})}" type="button" class="btn btn-info  "><i class="fa fa-edit"></i> </a></td>
+											<td>
+												<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myDeleteModal">
+													<i class="fa fa-trash-o"></i>
+												</button>
+												<div th:replace="modal/deleteModal :: deleteModal(@{delete(id=${produit.produitId})})"></div></td>
+											<td><a th:href="@{/produitOperations/produit(id=${produit.produitId})}" type="button" class="btn btn-default "><i class="fa fa-exchange"></i> </a></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th style="text-align: left" width="5%">#</th>
+								<th style="text-align: center" width="10%" th:text="#{ref}"></th>
+								<th style="text-align: center" th:text="#{category}"></th>
+								<th style="text-align: center" th:text="#{label}"></th>
+								<th style="text-align: center" th:text="#{description}"></th>
+								<th style="text-align: center" th:text="#{products.prixachat}"></th>
+								<th style="text-align: center" th:text="#{products.prixvente}"></th>
+								<th style="text-align: center" th:text="#{stockquantity}"></th>
+								<th style="text-align: center" th:text="#{actions}" width="10%"></th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				<!-- /.box-body -->
+			</div>
+		</section>
+
+	</section>
+
+</body>
+</html>

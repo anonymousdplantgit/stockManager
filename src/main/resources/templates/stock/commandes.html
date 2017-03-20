@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:fragment="http://www.ultraq.net.nz/thymeleaf/fragment" layout:decorator="layout/layout">
+<body>
+	<section layout:fragment="content" class="content-body">
+		<section class="content-header">
+			<h1 th:text="#{header.body.commandes}"></h1>
+			<ol class="breadcrumb">
+				<li><a href="/home" th:text="#{home}"><i class="fa fa-dashboard"></i></a></li>
+				<li class="active" th:text="#{header.body.commandes}"></li>
+			</ol>
+		</section>
+		<!-- 				Table -->
+		<section class="content">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title" th:text="#{commandes.list}"></h3>
+					<a class="btn btn-success" th:href="@{/commandes/managCmd}" type="button"><i class="fa fa-plus-circle"></i> <span th:text="#{commandes.addcmd}"></span></a>
+				</div>
+				<!-- /.box-header -->
+
+				<div class="nav-tabs-custom">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab_1" data-toggle="tab"><span th:text="#{commandes.tovalidate}"></span></a></li>
+						<li><a href="#tab_2" data-toggle="tab"><span th:text="#{commandes.todeliver}"></span></a></li>
+						<li><a href="#tab_3" data-toggle="tab"><span th:text="#{commandes.archived}"></span></a></li>
+				
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="tab_1">
+							<div th:replace="stock/fragments/commandesToValidate :: commandesToValidate"></div>
+						</div>
+						<!-- /.tab-pane -->
+						<div class="tab-pane" id="tab_2">
+							<div th:replace="stock/fragments/commandesToDeliver :: commandesToDeliver"></div>
+						</div>
+						<!-- /.tab-pane -->
+						<div class="tab-pane" id="tab_3">
+							<div th:replace="stock/fragments/commandesList :: commandesList"></div>
+						</div>
+						<!-- /.tab-pane -->
+					</div>
+					<!-- /.tab-content -->
+				</div>
+
+				<!-- /.box-body -->
+			</div>
+		</section>
+	</section>
+</body>
+</html>

@@ -1,0 +1,72 @@
+
+<div th:fragment="commandesToValidate">
+	<div class="box-body table-responsive no-padding">
+		<table id="table2" class="table table-condensed table-bordered table-striped table-hover">
+			<thead>
+				<tr>
+					<th style="text-align: left" width="5%">#</th>
+					<th style="text-align: center" width="10%" th:text="#{client}"></th>
+					<th style="text-align: center" width="10%" th:text="#{commandes.orderdate}"></th>
+					<th style="text-align: center" width="30%" th:text="#{commandes.infos}"></th>
+					<th style="text-align: center" width="10%" th:text="#{commandes.totalprice}"></th>
+					<th style="text-align: center" width="10%" th:text="#{commandes.totalgain}"></th>
+					<th style="text-align: center" width="15%" th:text="#{actions}"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="var : ${commandeListToValidate}">
+					<td th:text="${var.key.commandeId}"></td>
+					<td style="text-align: center" th:text="|${var.key.client.nom} ${var.key.client.prenom}|"></td>
+					<td style="text-align: center" th:text="${{var.key.dateCmd}}"></td>
+					<td>
+						<div class="box-body table-responsive no-padding">
+							<table class="table table-condensed table-striped table-bordered table-hover">
+								<tr>
+									<th style="text-align: left" width="25%" th:text="#{ref}"></th>
+									<th style="text-align: right" width="30%" th:text="#{products.prixachat}"></th>
+									<th style="text-align: right" width="30%" th:text="#{products.prixvente}"></th>
+									<th style="text-align: right" width="35%" th:text="#{qte}"></th>
+									<th style="text-align: right" width="40%" th:text="#{commandes.benefice}"></th>
+								</tr>
+								<tr th:each="var : ${var.key.commandeProduits}">
+									<td th:text="${var.produit.ref}"></td>
+									<td style="text-align: right" th:text="|${var.produit.prixAchat}DH|"></td>
+									<td style="text-align: right" th:text="|${var.produit.prixVente}DH|"></td>
+									<td style="text-align: right" th:text="${{var.qte}}"><a th:href="@{/produits/update(id=${var.produit.produitId})}"></a></td>
+									<td style="text-align: right" th:text="|${(var.produit.prixVente-var.produit.prixAchat)*var.qte}DH|"></td>
+								</tr>
+							</table>
+						</div>
+					</td>
+					<td style="text-align: center" th:text="|${{var.value.prixTotal}}DH|"></td>
+					<td style="text-align: center" th:text="|${{var.value.gainTotal}}DH|"></td>
+					<td align="center">
+						<table>
+							<tr>
+								<td>
+									<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myDeleteModal">
+										<i class="fa fa-trash-o"></i>
+									</button>
+									<div th:replace="modal/deleteModal :: deleteModal(@{delete(id=${var.key.commandeId})})"></div>
+
+								</td>
+								<td><a th:href="@{invoice(id=${var.key.commandeId})}" type="button" class="btn btn-warning "><i class="fa fa-search-plus"></i> </a> <!-- DELETE MODAL --></td>
+							</tr>
+						</table>
+						</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th style="text-align: left" width="5%">#</th>
+					<th style="text-align: center" width="10%" th:text="#{client}"></th>
+					<th style="text-align: center" width="10%" th:text="#{commandes.orderdate}"></th>
+					<th style="text-align: center" width="30%" th:text="#{commandes.infos}"></th>
+					<th style="text-align: center" width="10%" th:text="#{commandes.totalprice}"></th>
+					<th style="text-align: center" width="10%" th:text="#{commandes.totalgain}"></th>
+					<th style="text-align: center" width="10%" th:text="#{actions}"></th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>
